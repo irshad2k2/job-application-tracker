@@ -8,7 +8,9 @@
   "main": "index.js",
   "scripts": {
     "start": "node index.js",
-    "test": "jest",
+    "db:create:test": "NODE_ENV=test npx sequelize db:create",
+    "pretest": "NODE_ENV=test npx sequelize db:drop && NODE_ENV=test npx sequelize db:create",
+    "test": "NODE_ENV=test jest --detectOpenHandles",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
     "prepare": "cd ..&& node backend/.husky/install.mjs"
@@ -25,7 +27,8 @@
     "globals": "^17.5.0",
     "jest": "^30.3.0",
     "lint-staged": "^16.4.0",
-    "prettier": "^3.8.3"
+    "prettier": "^3.8.3",
+    "sequelize-cli": "^6.6.5"
   },
   "dependencies": {
     "pg": "^8.20.0",
