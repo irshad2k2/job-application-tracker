@@ -7,7 +7,8 @@
   "type": "commonjs",
   "main": "index.js",
   "scripts": {
-    "start": "node index.js",
+    "start": "nodemon -e js, ejs",
+    "start:prod": "node index.js",
     "db:create:test": "NODE_ENV=test npx sequelize db:create",
     "pretest": "NODE_ENV=test npx sequelize db:drop && NODE_ENV=test npx sequelize db:create",
     "test": "NODE_ENV=test jest --detectOpenHandles",
@@ -27,6 +28,7 @@
     "globals": "^17.6.0",
     "jest": "^30.3.0",
     "lint-staged": "^16.4.0",
+    "nodemon": "^3.1.14",
     "prettier": "^3.8.3",
     "sequelize-cli": "^6.6.5",
     "supertest": "^7.2.2"
