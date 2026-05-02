@@ -13,8 +13,7 @@
     "pretest": "NODE_ENV=test npx sequelize db:drop && NODE_ENV=test npx sequelize db:create",
     "test": "NODE_ENV=test jest --detectOpenHandles",
     "lint": "eslint .",
-    "lint:fix": "eslint . --fix",
-    "prepare": "cd ..&& node backend/.husky/install.mjs"
+    "lint:fix": "eslint . --fix"
   },
   "lint-staged": {
     "*.{js,jsx,ts,tsx}": [
