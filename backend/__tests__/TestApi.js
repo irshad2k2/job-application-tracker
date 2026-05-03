@@ -105,6 +105,36 @@ describe("API test suite", () => {
     expect(parsedResponse.id).toBeDefined();
   });
 
+  test("Should update job", async () => {
+    const res = await agent
+      .put(`/api/job/${jobID}`)
+      .set("Authorization", `Bearer ${token}`)
+      .send({
+        company: "example",
+        role: "example",
+        description: "example",
+        ctc: 125.0,
+        location: "example",
+        status: "INTERVIEW",
+        appliedDate: "2025-01-02",
+        notes: "nothing",
+      });
+    expect(res.statusCode).toBe(200);
+    expect(res.headers["content-type"]).toBe("application/json; charset=utf-8");
+    const parsedResponse = JSON.parse(res.text);
+    expect(parsedResponse.id).toBeDefined();
+  });
+
+  test("Should find job by status", async () => {
+    const res = await agent
+      .get(`/api/job?status=INTERVIEW`)
+      .set("Authorization", `Bearer ${token}`);
+    expect(res.statusCode).toBe(200);
+    expect(res.headers["content-type"]).toBe("application/json; charset=utf-8");
+    const parsedResponse = JSON.parse(res.text);
+    expect(parsedResponse[0].id).toBeDefined();
+  });
+
   test("Should delete job", async () => {
     const res = await agent
       .delete(`/api/job/${jobID}`)

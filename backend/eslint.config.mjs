@@ -19,10 +19,10 @@ export default [
       },
     },
     rules: {
-      "no-unused-vars": "warn", 
+      "no-unused-vars": "warn",
     },
   },
   {
     ignores: ["node_modules", "migrations", "moels", "seeds"],
-  }
+  },
 ];

@@ -1,4 +1,4 @@
-const { where } = require("sequelize");
+const { where, or } = require("sequelize");
 const { JobApplication } = require("../models");
 const createJob = async (req, res) => {
   try {
@@ -61,8 +61,18 @@ const getJobStats = async (req, res) => {
 
 const getAllJobs = async (req, res) => {
   try {
+    const { status } = req.query;
+    const whereClause = {
+      userId: req.user.userId,
+    };
+
+    if (status) {
+      whereClause.status = status;
+    }
+
     const jobs = await JobApplication.findAll({
-      where: { userId: req.user.userId },
+      where: whereClause,
+      order: [["appliedDate", "DESC"]],
     });
     return res.status(200).json(jobs);
   } catch (err) {
@@ -100,10 +110,39 @@ const getJob = async (req, res) => {
   }
 };
 
+const updateJob = async (req, res) => {
+  try {
+    const jobId = req.params.id;
+    const job = await JobApplication.findByPk(jobId);
+    if (!job) {
+      return res.status(404).json({ message: "Job not found" });
+    }
+    const updatedJob = await job.update(req.body);
+    return res.status(200).json(updatedJob);
+  } catch (err) {
+    console.error(err);
+    return res.status(500).json({ message: "Server error" });
+  }
+};
+
+// const findJobByStatus = async (req, res) => {
+//   try {
+//     const status = req.params.status;
+//     const jobs = await JobApplication.findAll({
+//       where: { status },
+//     });
+//     return res.status(200).json(jobs);
+//   } catch (err) {
+//     console.error(err);
+//     return res.status(500).json({ message: "Server error" });
+//   }
+// };
+
 module.exports = {
   createJob,
   getJobStats,
   getAllJobs,
   deleteJob,
   getJob,
+  updateJob,
 };
