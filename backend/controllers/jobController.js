@@ -85,9 +85,25 @@ const deleteJob = async (req, res) => {
     return res.status(500).json({ message: "Server error" });
   }
 };
+
+const getJob = async (req, res) => {
+  try {
+    const jobId = req.params.id;
+    const job = await JobApplication.findByPk(jobId);
+    if (!job) {
+      return res.status(404).json({ message: "Job not found" });
+    }
+    return res.status(200).json(job);
+  } catch (err) {
+    console.error(err);
+    return res.status(500).json({ message: "Server error" });
+  }
+};
+
 module.exports = {
   createJob,
   getJobStats,
   getAllJobs,
   deleteJob,
+  getJob,
 };

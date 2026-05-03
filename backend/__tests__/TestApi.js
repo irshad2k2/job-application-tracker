@@ -7,7 +7,7 @@ const app = require("../app");
 
 let server, agent, token, jobID;
 
-describe("Authentication test suite", () => {
+describe("API test suite", () => {
   beforeAll(async () => {
     await db.sequelize.sync({ force: true });
     server = app.listen(3000, () => {});
@@ -93,6 +93,16 @@ describe("Authentication test suite", () => {
     expect(res.headers["content-type"]).toBe("application/json; charset=utf-8");
     const parsedResponse = JSON.parse(res.text);
     expect(parsedResponse[0].id).toBeDefined();
+  });
+
+  test("Should get job by id", async () => {
+    const res = await agent
+      .get(`/api/job/${jobID}`)
+      .set("Authorization", `Bearer ${token}`);
+    expect(res.statusCode).toBe(200);
+    expect(res.headers["content-type"]).toBe("application/json; charset=utf-8");
+    const parsedResponse = JSON.parse(res.text);
+    expect(parsedResponse.id).toBeDefined();
   });
 
   test("Should delete job", async () => {
