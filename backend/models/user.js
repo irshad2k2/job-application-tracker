@@ -9,6 +9,9 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
+      user.hasMany(models.JobApplication, {
+        foreignKey: "userId",
+      });
     }
     static addUser(user) {
       return this.create(user);

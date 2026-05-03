@@ -1,27 +1,15 @@
 const express = require("express");
-const { user } = require("./models");
 const app = express();
-const bodyParser = require("body-parser");
-app.use(bodyParser.json());
 
-app.get("/", (req, res) => {
-  res.send("Hello World!");
-});
+app.use(express.json());
 
-app.post("/signup", async (req, res) => {
-  console.log("Creating a user", req.body);
-  try {
-    const User = await user.addUser({
-      firstName: req.body.firstName,
-      lastName: req.body.lastName,
-      email: req.body.email,
-      password: req.body.password,
-    });
-    return res.json(User);
-  } catch (error) {
-    console.log(error);
-    return res.status(422).json(error);
-  }
+const authRoutes = require("./routes/authRoutes");
+app.use("/api/auth", authRoutes);
+
+const authMiddleware = require("./middleware/authMiddleware");
+
+app.get("/home", authMiddleware, (req, res) => {
+  res.send(`Welcome User ${req.user.email}`);
 });
 
 module.exports = app;

@@ -19,18 +19,18 @@ describe("signUp test suite", () => {
   });
 
   test("Should add user", async () => {
-    const response = await agent.post("/signup").send({
+    const response = await agent.post("/api/auth/signup").send({
       firstName: "john",
       lastName: "doe",
       email: "example2@gmail.com",
       password: "12345678",
     });
 
-    expect(response.statusCode).toBe(200);
+    expect(response.statusCode).toBe(201);
     expect(response.headers["content-type"]).toBe(
       "application/json; charset=utf-8",
     );
     const parsedResponse = JSON.parse(response.text);
-    expect(parsedResponse.id).toBeDefined();
+    expect(parsedResponse.user.id).toBeDefined();
   });
 });

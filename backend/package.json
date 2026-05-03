@@ -33,7 +33,14 @@
     "supertest": "^7.2.2"
   },
   "dependencies": {
+    "bcrypt": "^6.0.0",
+    "connect-ensure-login": "^0.1.1",
+    "dotenv": "^17.4.2",
     "express": "^5.2.1",
+    "express-session": "^1.19.0",
+    "jsonwebtoken": "^9.0.3",
+    "passport": "^0.7.0",
+    "passport-local": "^1.0.0",
     "pg": "^8.20.0",
     "pg-hstore": "^2.3.4",
     "sequelize": "^6.37.8"
