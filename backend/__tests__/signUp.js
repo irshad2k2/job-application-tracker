@@ -70,4 +70,17 @@ describe("Authentication test suite", () => {
     const parsedResponse = JSON.parse(res.text);
     expect(parsedResponse.id).toBeDefined();
   });
+
+  test("Should count job stats", async () => {
+    const res = await agent
+      .get("/api/job/stats")
+      .set("Authorization", `Bearer ${token}`);
+    expect(res.statusCode).toBe(200);
+    expect(res.headers["content-type"]).toBe("application/json; charset=utf-8");
+    const parsedResponse = JSON.parse(res.text);
+    expect(parsedResponse.APPLIED).toBeDefined();
+    expect(parsedResponse.INTERVIEW).toBeDefined();
+    expect(parsedResponse.OFFER).toBeDefined();
+    expect(parsedResponse.REJECTED).toBeDefined();
+  });
 });
