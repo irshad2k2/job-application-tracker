@@ -5,7 +5,7 @@ const express = require("express");
 const request = require("supertest");
 const app = require("../app");
 
-let server, agent, token;
+let server, agent, token, jobID;
 
 describe("Authentication test suite", () => {
   beforeAll(async () => {
@@ -68,6 +68,7 @@ describe("Authentication test suite", () => {
     expect(res.statusCode).toBe(201);
     expect(res.headers["content-type"]).toBe("application/json; charset=utf-8");
     const parsedResponse = JSON.parse(res.text);
+    jobID = parsedResponse.id;
     expect(parsedResponse.id).toBeDefined();
   });
 
@@ -82,5 +83,24 @@ describe("Authentication test suite", () => {
     expect(parsedResponse.INTERVIEW).toBeDefined();
     expect(parsedResponse.OFFER).toBeDefined();
     expect(parsedResponse.REJECTED).toBeDefined();
+  });
+
+  test("Shoul get all jobs", async () => {
+    const res = await agent
+      .get("/api/job")
+      .set("Authorization", `Bearer ${token}`);
+    expect(res.statusCode).toBe(200);
+    expect(res.headers["content-type"]).toBe("application/json; charset=utf-8");
+    const parsedResponse = JSON.parse(res.text);
+    expect(parsedResponse[0].id).toBeDefined();
+  });
+
+  test("Should delete job", async () => {
+    const res = await agent
+      .delete(`/api/job/${jobID}`)
+      .set("Authorization", `Bearer ${token}`);
+    expect(res.statusCode).toBe(200);
+    expect(res.headers["content-type"]).toBe("application/json; charset=utf-8");
+    expect(res.body.message).toBe("Job deleted successfully");
   });
 });
