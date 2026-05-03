@@ -1,5 +1,6 @@
 const express = require("express");
 const app = express();
+const jobRoutes = require("./routes/jobRoutes");
 
 app.use(express.json());
 
@@ -8,8 +9,6 @@ app.use("/api/auth", authRoutes);
 
 const authMiddleware = require("./middleware/authMiddleware");
 
-app.get("/home", authMiddleware, (req, res) => {
-  res.send(`Welcome User ${req.user.email}`);
-});
+app.use("/api", jobRoutes);
 
 module.exports = app;

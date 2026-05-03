@@ -1,12 +1,13 @@
+require("dotenv").config();
 const { application } = require("express");
 const db = require("../models");
 const express = require("express");
 const request = require("supertest");
 const app = require("../app");
 
-let server, agent;
+let server, agent, token;
 
-describe("signUp test suite", () => {
+describe("Authentication test suite", () => {
   beforeAll(async () => {
     await db.sequelize.sync({ force: true });
     server = app.listen(3000, () => {});
@@ -18,11 +19,11 @@ describe("signUp test suite", () => {
     server.close();
   });
 
-  test("Should add user", async () => {
+  test("Should signup user", async () => {
     const response = await agent.post("/api/auth/signup").send({
       firstName: "john",
       lastName: "doe",
-      email: "example2@gmail.com",
+      email: "example@gmail.com",
       password: "12345678",
     });
 
@@ -32,5 +33,41 @@ describe("signUp test suite", () => {
     );
     const parsedResponse = JSON.parse(response.text);
     expect(parsedResponse.user.id).toBeDefined();
+  });
+
+  test("Shoul login user", async () => {
+    const response = await agent.post("/api/auth/login").send({
+      email: "example@gmail.com",
+      password: "12345678",
+    });
+
+    expect(response.statusCode).toBe(200);
+    expect(response.headers["content-type"]).toBe(
+      "application/json; charset=utf-8",
+    );
+    const parsedResponse = JSON.parse(response.text);
+    expect(parsedResponse.token).toBeDefined();
+
+    token = parsedResponse.token;
+  });
+
+  test("Should add JobApplication", async () => {
+    const res = await agent
+      .post("/api/job")
+      .set("Authorization", `Bearer ${token}`)
+      .send({
+        company: "example",
+        role: "example",
+        description: "example",
+        ctc: 125.0,
+        location: "example",
+        status: "APPLIED",
+        appliedDate: "2025-01-02",
+        notes: "nothing",
+      });
+    expect(res.statusCode).toBe(201);
+    expect(res.headers["content-type"]).toBe("application/json; charset=utf-8");
+    const parsedResponse = JSON.parse(res.text);
+    expect(parsedResponse.id).toBeDefined();
   });
 });
