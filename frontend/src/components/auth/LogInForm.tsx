@@ -1,24 +1,13 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
-
-interface SignUpFormProps {
-  onSubmit: (data: {
-    firstName: string;
-    lastName: string;
-    email: string;
-    password: string;
-  }) => void;
+interface LogInFormProps {
+  onSubmit: (data: { email: string; password: string }) => void;
 }
 
-const SignUpForm = ({ onSubmit }: SignUpFormProps) => {
+const LogInForm = ({ onSubmit }: LogInFormProps) => {
   const [formData, setFormData] = useState({
-    firstName: "",
-    lastName: "",
     email: "",
     password: "",
   });
-
-  const navigate = useNavigate();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData({
@@ -30,47 +19,16 @@ const SignUpForm = ({ onSubmit }: SignUpFormProps) => {
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     onSubmit(formData);
-    navigate("/login");
   };
 
   return (
     <div className="min-h-screen flex flex-col justify-center items-center w-full bg-fuchsia-950 p-4">
       <div className="bg-fuchsia-800 w-full max-w-md mx-auto p-6 rounded-lg shadow-md">
         <h1 className="text-3xl font-bold text-center text-white mb-6">
-          Signup
+          Login
         </h1>
         <form className="flex flex-col gap-4" onSubmit={handleSubmit}>
           <div className="flex flex-col gap-2">
-            <label
-              className="text-blue-50 text-sm font-medium"
-              htmlFor="firstName"
-            >
-              First Name *
-            </label>
-            <input
-              className="text-gray-900 bg-white border-2 border-gray-300 rounded px-3 py-2 focus:outline-none focus:border-blue-500"
-              type="text"
-              name="firstName"
-              id="firstName"
-              value={formData.firstName}
-              onChange={handleChange}
-              required
-            />
-            <label
-              className="text-blue-50 text-sm font-medium"
-              htmlFor="lastName"
-            >
-              Last Name *
-            </label>
-            <input
-              className="text-gray-900 bg-white border-2 border-gray-300 rounded px-3 py-2 focus:outline-none focus:border-blue-500"
-              type="text"
-              name="lastName"
-              id="lastName"
-              value={formData.lastName}
-              onChange={handleChange}
-              required
-            />
             <label className="text-blue-50 text-sm font-medium" htmlFor="email">
               Email *
             </label>
@@ -103,14 +61,17 @@ const SignUpForm = ({ onSubmit }: SignUpFormProps) => {
               className="bg-fuchsia-600 hover:bg-fuchsia-700 text-white font-semibold py-2 px-4 rounded mt-4"
               type="submit"
             >
-              Sign Up
+              Login
             </button>
           </div>
         </form>
         <div className="mt-6">
-          Already have an account?{"  "}
-          <a href="/login" className="text-white hover:underline font-semibold">
-            Login
+          New user? create an account{"  "}
+          <a
+            href="/signup"
+            className="text-white hover:underline font-semibold"
+          >
+            Sign up
           </a>
         </div>
       </div>
@@ -118,4 +79,4 @@ const SignUpForm = ({ onSubmit }: SignUpFormProps) => {
   );
 };
 
-export default SignUpForm;
+export default LogInForm;

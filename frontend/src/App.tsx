@@ -3,14 +3,14 @@ import {
   Navigate,
   RouterProvider,
 } from "react-router-dom";
-import HomePage from "./pages/HomePage.tsx";
+import DashboardPage from "./pages/DashboardPage.tsx";
 import Layout from "./Layout.tsx";
 import JobForm from "./pages/JobForm.tsx";
 import JobPage from "./pages/JobPage.tsx";
-import SignInPage from "./pages/SignInPage.tsx";
+import SignUpPage from "./pages/SignUpPage.tsx";
 import ProtectedRoute from "./ProtectedRoute.tsx";
 import NotFoundPage from "./pages/NotFoundPage.tsx";
-import Signup from "./pages/SignUpPage.tsx";
+import LogInPage from "./pages/LoginPage.tsx";
 
 const router = createBrowserRouter([
   {
@@ -26,12 +26,12 @@ const router = createBrowserRouter([
     element: <NotFoundPage />,
   },
   {
-    path: "/signup",
-    element: <Signup />,
+    path: "/login",
+    element: <LogInPage />,
   },
   {
-    path: "/signin",
-    element: <SignInPage />,
+    path: "/signup",
+    element: <SignUpPage />,
   },
   {
     element: (
@@ -41,8 +41,8 @@ const router = createBrowserRouter([
     ),
     children: [
       {
-        path: "/home",
-        element: <HomePage />,
+        path: "/dashboard",
+        element: <DashboardPage />,
       },
       {
         path: "/jobs",

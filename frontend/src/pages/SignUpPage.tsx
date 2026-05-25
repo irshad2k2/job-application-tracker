@@ -1,4 +1,5 @@
 import SignUpForm from "../components/auth/SignUpForm";
+
 const Signup: React.FC = () => {
   const handleSignUp = async (data: {
     firstName: string;
@@ -6,13 +7,16 @@ const Signup: React.FC = () => {
     email: string;
     password: string;
   }) => {
-    const response = await fetch("http://localhost:3000/api/auth/signup", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
+    const response = await fetch(
+      `${import.meta.env.VITE_API_URL}/api/auth/signup`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
       },
-      body: JSON.stringify(data),
-    });
+    );
 
     if (response.ok) {
       console.log("Sign-up successful!");
