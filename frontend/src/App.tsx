@@ -19,7 +19,7 @@ const router = createBrowserRouter([
   },
   {
     path: "/",
-    element: <Navigate to="/signin" replace />,
+    element: <Navigate to="/login" replace />,
   },
   {
     path: "/notfound",
@@ -49,7 +49,7 @@ const router = createBrowserRouter([
         element: <JobForm addJob={(job: any) => console.log(job)} />,
       },
       {
-        path: "/jobs/:id",
+        path: "/jobs/:status",
         element: <JobPage />,
       },
     ],
